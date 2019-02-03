@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Paddle.hh"
+#include "Pong.hh"
 
 using namespace std;
 
@@ -16,13 +17,15 @@ class Game: public sf::RenderWindow {
     private:
         void handleMoveKeyEvent (int keyCode, bool isKeyPressed);
         void handlePaddleMovement ();
+        void handlePongMovement ();
 
         Paddle _leftPaddle;
         Paddle _rightPaddle;
+        Pong _pong;
 
-        bool upFlagLeft;
-        bool downFlagLeft;
-        bool upFlagRight;
-        bool downFlagRight;
+        bool _upFlagLeft;
+        bool _downFlagLeft;
+        bool _upFlagRight;
+        bool _downFlagRight;
 
 };
