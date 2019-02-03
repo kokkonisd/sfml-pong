@@ -10,6 +10,8 @@ Game::Game (int width, int height, string title)
     _leftPaddle(Paddle(width / 40, height / 5, 0.1)),
     _rightPaddle(Paddle(width / 40, height / 5, 0.1)),
     _pong(Pong(width / 40, 0.02)),
+    _pongSpeedMultiplierX(1.4),
+    _pongSpeedMultiplierY(1.2),
     _upFlagLeft(false),
     _downFlagLeft(false),
     _upFlagRight(false),
@@ -96,21 +98,21 @@ void Game::handlePaddleMovement ()
 
 void Game::handlePongMovement ()
 {
-    _pong.setPosition(_pong.getPosition().x + _pong._speedX * _pong._directionX,
-                      _pong.getPosition().y + _pong._speedY * _pong._directionY);
+    _pong.setPosition(_pong.getPosition().x + _pong.getSpeedX() * _pong.getDirectionX(),
+                      _pong.getPosition().y + _pong.getSpeedY() * _pong.getDirectionY());
 
 
     if (_pong.getPosition().y <= 0 || _pong.getPosition().y + _pong.getSize().y >= getSize().y) {
-        _pong._directionY = - _pong._directionY;
+        _pong.flipDirectionY();
     }
 
     if (_pong.getPosition().x <= _leftPaddle.getSize().x) {
         if (_pong.getPosition().y + _pong.getSize().y > _leftPaddle.getPosition().y &&
             _pong.getPosition().y < _leftPaddle.getPosition().y + _leftPaddle.getSize().y) {
 
-            _pong._directionX = - _pong._directionX;
-            _pong._speedX *= 1.5;
-            _pong._speedY *= 1.2;
+            _pong.flipDirectionX();
+            _pong.setSpeedX(_pong.getSpeedX() * _pongSpeedMultiplierX);
+            _pong.setSpeedY(_pong.getSpeedY() * _pongSpeedMultiplierY);
 
         } else {
 
@@ -124,9 +126,9 @@ void Game::handlePongMovement ()
         if (_pong.getPosition().y + _pong.getSize().y > _rightPaddle.getPosition().y &&
             _pong.getPosition().y < _rightPaddle.getPosition().y + _rightPaddle.getSize().y) {
 
-            _pong._directionX = - _pong._directionX;
-            _pong._speedX *= 1.5;
-            _pong._speedY *= 1.2;
+            _pong.flipDirectionX();
+            _pong.setSpeedX(_pong.getSpeedX() * _pongSpeedMultiplierX);
+            _pong.setSpeedY(_pong.getSpeedY() * _pongSpeedMultiplierY);
 
         } else {
 

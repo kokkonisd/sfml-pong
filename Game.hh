@@ -25,6 +25,9 @@ class Game: public sf::RenderWindow {
         Paddle _rightPaddle;
         Pong _pong;
 
+        float _pongSpeedMultiplierX;
+        float _pongSpeedMultiplierY;
+
         bool _upFlagLeft;
         bool _downFlagLeft;
         bool _upFlagRight;
