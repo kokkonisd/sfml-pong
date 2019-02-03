@@ -28,4 +28,7 @@ class Game: public sf::RenderWindow {
         bool _upFlagRight;
         bool _downFlagRight;
 
+        int _leftPoints;
+        int _rightPoints;
+
 };
