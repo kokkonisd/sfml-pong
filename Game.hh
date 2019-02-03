@@ -14,7 +14,14 @@ class Game: public sf::RenderWindow {
         void play ();
 
     private:
+        void handleMoveKeyEvent (int keyCode, bool isKeyPressed);
+
         Pong _leftPong;
         Pong _rightPong;
+
+        bool upFlagLeft;
+        bool downFlagLeft;
+        bool upFlagRight;
+        bool downFlagRight;
 
 };

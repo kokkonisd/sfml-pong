@@ -8,6 +8,10 @@ using namespace std;
 class Pong: public sf::RectangleShape {
 
     public:
-        Pong (int width, int height);
+        Pong (float width, float height, float speed);
+        void operator++ ();
+        void operator-- ();
 
+    private:
+        float _speed;
 };
