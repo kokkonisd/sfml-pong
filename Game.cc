@@ -3,11 +3,11 @@
 Game::Game (int width, int height, string title)
 :
     sf::RenderWindow(sf::VideoMode(width, height), title),
-    _leftPong(Pong(width / 40, height / 5, 0.1)),
-    _rightPong(Pong(width / 40, height / 5, 0.1))
+    _leftPaddle(Paddle(width / 40, height / 5, 0.1)),
+    _rightPaddle(Paddle(width / 40, height / 5, 0.1))
 {
-    _leftPong.setPosition(0, height / 2 - _leftPong.getSize().y / 2);
-    _rightPong.setPosition(width - _rightPong.getSize().x, height / 2 - _rightPong.getSize().y / 2);
+    _leftPaddle.setPosition(0, height / 2 - _leftPaddle.getSize().y / 2);
+    _rightPaddle.setPosition(width - _rightPaddle.getSize().x, height / 2 - _rightPaddle.getSize().y / 2);
 }
 
 
@@ -35,21 +35,11 @@ void Game::play ()
             }
         }
 
-        if (upFlagLeft && _leftPong.getPosition().y > 0)
-            --_leftPong;
-
-        if (downFlagLeft && _leftPong.getPosition().y + _leftPong.getSize().y < getSize().y)
-            ++_leftPong;
-
-        if (upFlagRight && _rightPong.getPosition().y > 0)
-            --_rightPong;
-
-        if (downFlagRight && _rightPong.getPosition().y + _rightPong.getSize().y < getSize().y)
-            ++_rightPong;
+        handlePaddleMovement();
 
         clear();
-        draw(_leftPong);
-        draw(_rightPong);
+        draw(_leftPaddle);
+        draw(_rightPaddle);
         display();
     }
 }
@@ -61,4 +51,20 @@ void Game::handleMoveKeyEvent (int keyCode, bool isKeyPressed)
     if (keyCode == sf::Keyboard::S) downFlagLeft = isKeyPressed;
     if (keyCode == sf::Keyboard::Up) upFlagRight = isKeyPressed;
     if (keyCode == sf::Keyboard::Down) downFlagRight = isKeyPressed;
+}
+
+
+void Game::handlePaddleMovement ()
+{
+    if (upFlagLeft && _leftPaddle.getPosition().y > 0)
+        --_leftPaddle;
+
+    if (downFlagLeft && _leftPaddle.getPosition().y + _leftPaddle.getSize().y < getSize().y)
+        ++_leftPaddle;
+
+    if (upFlagRight && _rightPaddle.getPosition().y > 0)
+        --_rightPaddle;
+
+    if (downFlagRight && _rightPaddle.getPosition().y + _rightPaddle.getSize().y < getSize().y)
+        ++_rightPaddle;
 }

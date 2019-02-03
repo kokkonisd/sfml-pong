@@ -5,10 +5,10 @@
 
 using namespace std;
 
-class Pong: public sf::RectangleShape {
+class Paddle: public sf::RectangleShape {
 
     public:
-        Pong (float width, float height, float speed);
+        Paddle (float width, float height, float speed);
         void operator++ ();
         void operator-- ();
 

@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-#include "Pong.hh"
+#include "Paddle.hh"
 
 using namespace std;
 
@@ -15,9 +15,10 @@ class Game: public sf::RenderWindow {
 
     private:
         void handleMoveKeyEvent (int keyCode, bool isKeyPressed);
+        void handlePaddleMovement ();
 
-        Pong _leftPong;
-        Pong _rightPong;
+        Paddle _leftPaddle;
+        Paddle _rightPaddle;
 
         bool upFlagLeft;
         bool downFlagLeft;
