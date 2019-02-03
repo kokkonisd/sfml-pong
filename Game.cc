@@ -35,10 +35,17 @@ void Game::play ()
             }
         }
 
-        if (upFlagLeft) --_leftPong;
-        if (downFlagLeft) ++_leftPong;
-        if (upFlagRight) --_rightPong;
-        if (downFlagRight) ++_rightPong;
+        if (upFlagLeft && _leftPong.getPosition().y > 0)
+            --_leftPong;
+
+        if (downFlagLeft && _leftPong.getPosition().y + _leftPong.getSize().y < getSize().y)
+            ++_leftPong;
+
+        if (upFlagRight && _rightPong.getPosition().y > 0)
+            --_rightPong;
+
+        if (downFlagRight && _rightPong.getPosition().y + _rightPong.getSize().y < getSize().y)
+            ++_rightPong;
 
         clear();
         draw(_leftPong);
