@@ -1,6 +1,9 @@
 #include "Game.hh"
 #include <iostream>
 
+
+using namespace std;
+
 Game::Game (int width, int height, string title)
 :
     sf::RenderWindow(sf::VideoMode(width, height), title),
@@ -16,6 +19,11 @@ Game::Game (int width, int height, string title)
 {
     _leftPaddle.setPosition(0, height / 2 - _leftPaddle.getSize().y / 2);
     _rightPaddle.setPosition(width - _rightPaddle.getSize().x, height / 2 - _rightPaddle.getSize().y / 2);
+
+    if (!_mainFont.loadFromFile("assets/fonts/MajorMonoDisplay-Regular.ttf")) {
+        cout << "ERROR: Could not load font \"MajorMonoDisplay-Regular.ttf\". Exiting." << endl;
+        exit(1);
+    }
 }
 
 
@@ -48,12 +56,13 @@ void Game::play ()
         handlePaddleMovement();
         handlePongMovement();
 
-        cout << _pong._speedX << endl;
-
         clear();
+
         draw(_leftPaddle);
         draw(_rightPaddle);
         draw(_pong);
+
+        handleScoreText();
 
         display();
     }
@@ -126,4 +135,19 @@ void Game::handlePongMovement ()
 
         }
     }
+}
+
+
+void Game::handleScoreText ()
+{
+    stringstream scoreText;
+    sf::Text score;
+
+    scoreText << _leftPoints << " - " << _rightPoints;
+    score.setFont(_mainFont);
+    score.setString(scoreText.str());
+    score.setCharacterSize(40);
+    score.setPosition(getSize().x / 2.0f - score.getLocalBounds().width / 2.0f - 5, 10);
+
+    draw(score);
 }

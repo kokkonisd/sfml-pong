@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <sstream>
 
 #include "Paddle.hh"
 #include "Pong.hh"
@@ -18,6 +19,7 @@ class Game: public sf::RenderWindow {
         void handleMoveKeyEvent (int keyCode, bool isKeyPressed);
         void handlePaddleMovement ();
         void handlePongMovement ();
+        void handleScoreText ();
 
         Paddle _leftPaddle;
         Paddle _rightPaddle;
@@ -30,5 +32,7 @@ class Game: public sf::RenderWindow {
 
         int _leftPoints;
         int _rightPoints;
+
+        sf::Font _mainFont;
 
 };
