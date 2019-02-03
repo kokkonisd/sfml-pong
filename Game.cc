@@ -3,13 +3,11 @@
 Game::Game (int width, int height, string title)
 :
     sf::RenderWindow(sf::VideoMode(width, height), title),
-    _leftPong(sf::RectangleShape(sf::Vector2f(width / 40, height / 5))),
-    _rightPong(sf::RectangleShape(sf::Vector2f(width / 40, height / 5))),
-    _pongHeight(height / 5),
-    _pongWidth(width / 40)
+    _leftPong(Pong(width / 40, height / 5)),
+    _rightPong(Pong(width / 40, height / 5))
 {
-    _leftPong.setPosition(0, height / 2 - _pongHeight / 2);
-    _rightPong.setPosition(width - _pongWidth, height / 2 - _pongHeight / 2);
+    _leftPong.setPosition(0, height / 2 - _leftPong.getSize().y / 2);
+    _rightPong.setPosition(width - _rightPong.getSize().x, height / 2 - _rightPong.getSize().y / 2);
 }
 
 void Game::play ()

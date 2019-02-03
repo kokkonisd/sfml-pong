@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+#include "Pong.hh"
+
 using namespace std;
 
 class Game: public sf::RenderWindow {
@@ -12,9 +14,7 @@ class Game: public sf::RenderWindow {
         void play ();
 
     private:
-        sf::RectangleShape _leftPong;
-        sf::RectangleShape _rightPong;
-        float _pongHeight;
-        float _pongWidth;
+        Pong _leftPong;
+        Pong _rightPong;
 
 };

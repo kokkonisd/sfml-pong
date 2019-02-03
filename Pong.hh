@@ -10,4 +10,4 @@ class Pong: public sf::RectangleShape {
     public:
         Pong (int width, int height);
 
-}
+};
