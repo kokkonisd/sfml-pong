@@ -1,17 +1,21 @@
 #include "Game.hh"
 #include <iostream>
 
+#define PADDLE_SPEED 5
+#define PONG_BASE_SPEED (PADDLE_SPEED / 6.0)
+#define PONG_SPEED_MULTIPLIER_X 1.4
+#define PONG_SPEED_MULTIPLIER_Y 1.2
 
 using namespace std;
 
 Game::Game (int width, int height, string title)
 :
     sf::RenderWindow(sf::VideoMode(width, height), title),
-    _leftPaddle(Paddle(width / 40, height / 5, 0.1)),
-    _rightPaddle(Paddle(width / 40, height / 5, 0.1)),
-    _pong(Pong(width / 40, 0.02)),
-    _pongSpeedMultiplierX(1.4),
-    _pongSpeedMultiplierY(1.2),
+    _leftPaddle(Paddle(width / 40, height / 5, PADDLE_SPEED)),
+    _rightPaddle(Paddle(width / 40, height / 5, PADDLE_SPEED)),
+    _pong(Pong(width / 40, PONG_BASE_SPEED)),
+    _pongSpeedMultiplierX(PONG_SPEED_MULTIPLIER_X),
+    _pongSpeedMultiplierY(PONG_SPEED_MULTIPLIER_Y),
     _upFlagLeft(false),
     _downFlagLeft(false),
     _upFlagRight(false),
@@ -19,6 +23,8 @@ Game::Game (int width, int height, string title)
     _leftPoints(0),
     _rightPoints(0)
 {
+    setFramerateLimit(120);
+
     _leftPaddle.setPosition(0, height / 2 - _leftPaddle.getSize().y / 2);
     _rightPaddle.setPosition(width - _rightPaddle.getSize().x, height / 2 - _rightPaddle.getSize().y / 2);
 
