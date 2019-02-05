@@ -24,6 +24,7 @@ Game::Game (int width, int height, string title)
     _rightPoints(0)
 {
     setFramerateLimit(120);
+    setMouseCursorVisible(false);
 
     _leftPaddle.setPosition(0, height / 2 - _leftPaddle.getSize().y / 2);
     _rightPaddle.setPosition(width - _rightPaddle.getSize().x, height / 2 - _rightPaddle.getSize().y / 2);
