@@ -5,8 +5,8 @@ using namespace std;
 
 float Game::PADDLE_SPEED = 5.0;
 float Game::PONG_BASE_SPEED = Game::PADDLE_SPEED / 6.0;
-float Game::PONG_SPEED_MULTIPLIER_X = 1.4;
-float Game::PONG_SPEED_MULTIPLIER_Y = 1.2;
+float Game::PONG_SPEED_MULTIPLIER_X = Game::PONG_BASE_SPEED * 0.8;
+float Game::PONG_SPEED_MULTIPLIER_Y = Game::PONG_BASE_SPEED * 0.6;
 
 Game::Game (int width, int height, string title)
 :
@@ -38,6 +38,7 @@ Game::Game (int width, int height, string title)
 void Game::play ()
 {
     _pong.init(getSize().x, getSize().y);
+    bool gameStarted = false;
 
     while (isOpen()) {
         sf::Event event;
@@ -50,6 +51,10 @@ void Game::play ()
 
                 case sf::Event::KeyPressed:
                     handleMoveKeyEvent(event.key.code, true);
+
+                    if (event.key.code == sf::Keyboard::Space && !gameStarted)
+                        gameStarted = true;
+
                     break;
 
                 case sf::Event::KeyReleased:
@@ -61,10 +66,14 @@ void Game::play ()
             }
         }
 
-        handlePaddleMovement();
-        handlePongMovement();
-
         clear();
+
+        if (gameStarted) {
+            handlePaddleMovement();
+            handlePongMovement();
+        } else {
+            handlePreGameText();
+        }
 
         draw(_leftPaddle);
         draw(_rightPaddle);
@@ -117,8 +126,8 @@ void Game::handlePongMovement ()
             _pong.getPosition().y < _leftPaddle.getPosition().y + _leftPaddle.getSize().y) {
 
             _pong.flipDirectionX();
-            _pong.setSpeedX(_pong.getSpeedX() * _pongSpeedMultiplierX);
-            _pong.setSpeedY(_pong.getSpeedY() * _pongSpeedMultiplierY);
+            _pong.setSpeedX(_pong.getSpeedX() + _pongSpeedMultiplierX);
+            _pong.setSpeedY(_pong.getSpeedY() + _pongSpeedMultiplierY);
 
         } else {
 
@@ -133,8 +142,8 @@ void Game::handlePongMovement ()
             _pong.getPosition().y < _rightPaddle.getPosition().y + _rightPaddle.getSize().y) {
 
             _pong.flipDirectionX();
-            _pong.setSpeedX(_pong.getSpeedX() * _pongSpeedMultiplierX);
-            _pong.setSpeedY(_pong.getSpeedY() * _pongSpeedMultiplierY);
+            _pong.setSpeedX(_pong.getSpeedX() + _pongSpeedMultiplierX);
+            _pong.setSpeedY(_pong.getSpeedY() + _pongSpeedMultiplierY);
 
         } else {
 
@@ -158,4 +167,17 @@ void Game::handleScoreText ()
     score.setPosition(getSize().x / 2.0f - score.getLocalBounds().width / 2.0f - 5, 10);
 
     draw(score);
+}
+
+
+void Game::handlePreGameText ()
+{
+    sf::Text preGameText;
+    preGameText.setFont(_mainFont);
+    preGameText.setString("press <space> to start");
+    preGameText.setCharacterSize(20);
+    preGameText.setPosition(getSize().x / 2.0f - preGameText.getLocalBounds().width / 2.0f - 5,
+                            _pong.getPosition().y - 40);
+
+    draw(preGameText);
 }

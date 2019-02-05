@@ -25,6 +25,7 @@ class Game: public sf::RenderWindow {
         void handlePaddleMovement ();
         void handlePongMovement ();
         void handleScoreText ();
+        void handlePreGameText ();
 
         Paddle _leftPaddle;
         Paddle _rightPaddle;
