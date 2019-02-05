@@ -1,12 +1,12 @@
 #include "Game.hh"
 #include <iostream>
 
-#define PADDLE_SPEED 5
-#define PONG_BASE_SPEED (PADDLE_SPEED / 6.0)
-#define PONG_SPEED_MULTIPLIER_X 1.4
-#define PONG_SPEED_MULTIPLIER_Y 1.2
-
 using namespace std;
+
+float Game::PADDLE_SPEED = 5.0;
+float Game::PONG_BASE_SPEED = Game::PADDLE_SPEED / 6.0;
+float Game::PONG_SPEED_MULTIPLIER_X = 1.4;
+float Game::PONG_SPEED_MULTIPLIER_Y = 1.2;
 
 Game::Game (int width, int height, string title)
 :

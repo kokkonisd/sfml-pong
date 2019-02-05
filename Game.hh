@@ -15,6 +15,11 @@ class Game: public sf::RenderWindow {
         Game (int width, int height, string title);
         void play ();
 
+        static float PADDLE_SPEED;
+        static float PONG_BASE_SPEED;
+        static float PONG_SPEED_MULTIPLIER_X;
+        static float PONG_SPEED_MULTIPLIER_Y;
+
     private:
         void handleMoveKeyEvent (int keyCode, bool isKeyPressed);
         void handlePaddleMovement ();
