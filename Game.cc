@@ -86,6 +86,36 @@ void Game::play ()
 }
 
 
+void Game::menu ()
+{
+    Pong menuPong(20, 0);
+    menuPong.setPosition(getSize().x / 2 - 80, getSize().y / 2 - 85);
+
+    while (isOpen()) {
+        sf::Event event;
+
+        while (pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::Closed:
+                    close();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        clear();
+
+        drawMenuItems();
+        // drawMenuPong();
+        draw(menuPong);
+
+        display();
+    }
+}
+
+
 void Game::handleMoveKeyEvent (int keyCode, bool isKeyPressed)
 {
     if (keyCode == sf::Keyboard::W) _upFlagLeft = isKeyPressed;
@@ -180,4 +210,44 @@ void Game::handlePreGameText ()
                             _pong.getPosition().y - 40);
 
     draw(preGameText);
+}
+
+
+void Game::drawMenuItems ()
+{
+    sf::Text menuTitle;
+    sf::Text menuPlayText;
+    sf::Text menuControlsText;
+    sf::Text menuCreditsText;
+
+    menuTitle.setFont(_mainFont);
+    menuTitle.setString("p0ng");
+    menuTitle.setCharacterSize(70);
+    menuTitle.setPosition(getSize().x / 2.0f - menuTitle.getLocalBounds().width / 2.0f - 5, 10);
+
+    menuPlayText.setFont(_mainFont);
+    menuPlayText.setString("play");
+    menuPlayText.setCharacterSize(40);
+    menuPlayText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f - 100);
+
+    menuControlsText.setFont(_mainFont);
+    menuControlsText.setString("controls");
+    menuControlsText.setCharacterSize(40);
+    menuControlsText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f);
+
+    menuCreditsText.setFont(_mainFont);
+    menuCreditsText.setString("credits");
+    menuCreditsText.setCharacterSize(40);
+    menuCreditsText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f + 100);
+
+    draw(menuTitle);
+    draw(menuPlayText);
+    draw(menuControlsText);
+    draw(menuCreditsText);
+}
+
+
+void Game::drawMenuPong ()
+{
+
 }

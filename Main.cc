@@ -8,7 +8,7 @@ int main (int argc, char *argv[])
 
     Game pong(800, 600, "SFML Pong");
 
-    pong.play();
+    pong.menu();
 
     return 0;
 }

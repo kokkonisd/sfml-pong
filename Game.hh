@@ -14,6 +14,7 @@ class Game: public sf::RenderWindow {
     public:
         Game (int width, int height, string title);
         void play ();
+        void menu ();
 
         static float PADDLE_SPEED;
         static float PONG_BASE_SPEED;
@@ -26,6 +27,8 @@ class Game: public sf::RenderWindow {
         void handlePongMovement ();
         void handleScoreText ();
         void handlePreGameText ();
+        void drawMenuItems ();
+        void drawMenuPong ();
 
         Paddle _leftPaddle;
         Paddle _rightPaddle;
