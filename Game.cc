@@ -91,6 +91,9 @@ void Game::menu ()
     Pong menuPong(20, 0);
     menuPong.setPosition(getSize().x / 2 - 80, getSize().y / 2 - 85);
 
+    int selectedMenuItem = 0;
+    int currentMenuState = 0;
+
     while (isOpen()) {
         sf::Event event;
 
@@ -100,6 +103,41 @@ void Game::menu ()
                     close();
                     break;
 
+                case sf::Event::KeyPressed:
+                    switch (event.key.code) {
+                        case sf::Keyboard::Up:
+                            if (selectedMenuItem > 0) {
+                                selectedMenuItem--;
+                                menuPong.setPosition(menuPong.getPosition().x, menuPong.getPosition().y - 100);
+                            }
+
+                            break;
+
+                        case sf::Keyboard::Down:
+                            if (selectedMenuItem < 2) {
+                                selectedMenuItem++;
+                                menuPong.setPosition(menuPong.getPosition().x, menuPong.getPosition().y + 100);
+                            }
+
+                            break;
+
+                        case sf::Keyboard::Return:
+                            if (currentMenuState == 0) {
+                                if (selectedMenuItem == 0) play();
+                                else if (selectedMenuItem == 1) currentMenuState = 1; // controls
+                                else currentMenuState = 2; // credits
+                            } else {
+                                currentMenuState = 0;
+                                selectedMenuItem = 0;
+                                menuPong.setPosition(getSize().x / 2 - 80, getSize().y / 2 - 85);
+                            }
+
+                            break;
+
+                        default:
+                            break;
+                    }
+
                 default:
                     break;
             }
@@ -107,9 +145,29 @@ void Game::menu ()
 
         clear();
 
-        drawMenuItems();
-        // drawMenuPong();
-        draw(menuPong);
+        switch (currentMenuState) {
+            case 0:
+                drawMenuItems();
+                draw(menuPong);
+                break;
+
+            case 1:
+                drawControlsItems();
+                menuPong.setPosition(getSize().x / 2 - 80, getSize().y - 100);
+                draw(menuPong);
+                break;
+
+            case 2:
+                drawCreditsItems();
+                menuPong.setPosition(getSize().x / 2 - 80, getSize().y - 100);
+                draw(menuPong);
+                break;
+
+            default:
+                break;
+        }
+
+
 
         display();
     }
@@ -247,7 +305,57 @@ void Game::drawMenuItems ()
 }
 
 
-void Game::drawMenuPong ()
+void Game::drawControlsItems ()
 {
+    sf::Text menuTitle;
+    sf::Text menuText;
+    sf::Text backText;
 
+    menuTitle.setFont(_mainFont);
+    menuTitle.setString("controls");
+    menuTitle.setCharacterSize(70);
+    menuTitle.setPosition(getSize().x / 2.0f - menuTitle.getLocalBounds().width / 2.0f - 5, 10);
+
+    menuText.setFont(_mainFont);
+    menuText.setString(L"left paddle:\n<w> to go up, <s> to go down\n\nright paddle:\n<↑> to go up, <↓> to go down");
+    menuText.setCharacterSize(30);
+    menuText.setPosition(getSize().x / 2.0f - menuText.getLocalBounds().width / 2.0f - 5,
+                         getSize().y / 2.0f - 100);
+
+    backText.setFont(_mainFont);
+    backText.setString("back");
+    backText.setCharacterSize(40);
+    backText.setPosition(getSize().x / 2.0f - 15, getSize().y - 116);
+
+    draw(menuTitle);
+    draw(menuText);
+    draw(backText);
+}
+
+
+void Game::drawCreditsItems ()
+{
+    sf::Text menuTitle;
+    sf::Text menuText;
+    sf::Text backText;
+
+    menuTitle.setFont(_mainFont);
+    menuTitle.setString("credits");
+    menuTitle.setCharacterSize(70);
+    menuTitle.setPosition(getSize().x / 2.0f - menuTitle.getLocalBounds().width / 2.0f - 5, 10);
+
+    menuText.setFont(_mainFont);
+    menuText.setString("made by dimitris kokkonis\n(kokkonisd.github.io)\nusing c++ and sfml\nfebruary 2019");
+    menuText.setCharacterSize(30);
+    menuText.setPosition(getSize().x / 2.0f - menuText.getLocalBounds().width / 2.0f - 5,
+                         getSize().y / 2.0f - 100);
+
+    backText.setFont(_mainFont);
+    backText.setString("back");
+    backText.setCharacterSize(40);
+    backText.setPosition(getSize().x / 2.0f - 15, getSize().y - 116);
+
+    draw(menuTitle);
+    draw(menuText);
+    draw(backText);
 }

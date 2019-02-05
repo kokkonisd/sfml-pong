@@ -28,7 +28,8 @@ class Game: public sf::RenderWindow {
         void handleScoreText ();
         void handlePreGameText ();
         void drawMenuItems ();
-        void drawMenuPong ();
+        void drawControlsItems ();
+        void drawCreditsItems ();
 
         Paddle _leftPaddle;
         Paddle _rightPaddle;
