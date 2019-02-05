@@ -4,15 +4,15 @@
 using namespace std;
 
 float Game::PADDLE_SPEED = 5.0;
-float Game::PONG_BASE_SPEED = Game::PADDLE_SPEED / 6.0;
+float Game::PONG_BASE_SPEED = Game::PADDLE_SPEED / 5.0;
 float Game::PONG_SPEED_MULTIPLIER_X = Game::PONG_BASE_SPEED * 0.8;
 float Game::PONG_SPEED_MULTIPLIER_Y = Game::PONG_BASE_SPEED * 0.6;
 
 Game::Game (int width, int height, string title)
 :
     sf::RenderWindow(sf::VideoMode(width, height), title),
-    _leftPaddle(Paddle(width / 40, height / 5, PADDLE_SPEED)),
-    _rightPaddle(Paddle(width / 40, height / 5, PADDLE_SPEED)),
+    _leftPaddle(Paddle(width / 40.0f, height / 5.0f, PADDLE_SPEED)),
+    _rightPaddle(Paddle(width / 40.0f, height / 5.0f, PADDLE_SPEED)),
     _pong(Pong(width / 40, PONG_BASE_SPEED)),
     _pongSpeedMultiplierX(PONG_SPEED_MULTIPLIER_X),
     _pongSpeedMultiplierY(PONG_SPEED_MULTIPLIER_Y),
