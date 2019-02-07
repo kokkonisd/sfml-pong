@@ -347,7 +347,7 @@ void Game::drawCreditsItems ()
 
     menuText.setFont(_mainFont);
     menuText.setString("made by dimitris kokkonis\n(kokkonisd.github.io)\nusing c++ and sfml\nfebruary 2019");
-    menuText.setCharacterSize(30);
+    menuText.setCharacterSize(35);
     menuText.setPosition(getSize().x / 2.0f - menuText.getLocalBounds().width / 2.0f - 5,
                          getSize().y / 2.0f - 100);
 
