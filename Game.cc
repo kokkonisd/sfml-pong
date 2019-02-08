@@ -56,6 +56,12 @@ void Game::play ()
                     if (event.key.code == sf::Keyboard::Space && !gameStarted)
                         gameStarted = true;
 
+                    if (event.key.code == sf::Keyboard::Escape) {
+                        _leftPoints = 0;
+                        _rightPoints = 0;
+                        menu();
+                    }
+
                     break;
 
                 case sf::Event::KeyReleased:
@@ -115,7 +121,7 @@ void Game::menu ()
                             break;
 
                         case sf::Keyboard::Down:
-                            if (selectedMenuItem < 2) {
+                            if (selectedMenuItem < 3) {
                                 selectedMenuItem++;
                                 menuPong.setPosition(menuPong.getPosition().x, menuPong.getPosition().y + 100);
                             }
@@ -126,7 +132,8 @@ void Game::menu ()
                             if (currentMenuState == 0) {
                                 if (selectedMenuItem == 0) play();
                                 else if (selectedMenuItem == 1) currentMenuState = 1; // controls
-                                else currentMenuState = 2; // credits
+                                else if (selectedMenuItem == 2) currentMenuState = 2; // credits
+                                else close();
                             } else {
                                 currentMenuState = 0;
                                 selectedMenuItem = 0;
@@ -278,6 +285,7 @@ void Game::drawMenuItems ()
     sf::Text menuPlayText;
     sf::Text menuControlsText;
     sf::Text menuCreditsText;
+    sf::Text menuQuitText;
 
     menuTitle.setFont(_mainFont);
     menuTitle.setString("p0ng");
@@ -299,10 +307,16 @@ void Game::drawMenuItems ()
     menuCreditsText.setCharacterSize(40);
     menuCreditsText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f + 100);
 
+    menuQuitText.setFont(_mainFont);
+    menuQuitText.setString("quit");
+    menuQuitText.setCharacterSize(40);
+    menuQuitText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f + 200);
+
     draw(menuTitle);
     draw(menuPlayText);
     draw(menuControlsText);
     draw(menuCreditsText);
+    draw(menuQuitText);
 }
 
 
@@ -347,7 +361,7 @@ void Game::drawCreditsItems ()
 
     menuText.setFont(_mainFont);
     menuText.setString("made by dimitris kokkonis\n(kokkonisd.github.io)\nusing c++ and sfml\nfebruary 2019");
-    menuText.setCharacterSize(30);
+    menuText.setCharacterSize(35);
     menuText.setPosition(getSize().x / 2.0f - menuText.getLocalBounds().width / 2.0f - 5,
                          getSize().y / 2.0f - 100);
 
