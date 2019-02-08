@@ -13,8 +13,8 @@ class Game: public sf::RenderWindow {
 
     public:
         Game (int width, int height, string title);
-        void play ();
         void menu ();
+        // void win (string winMessage);
 
         static float PADDLE_SPEED;
         static float PONG_BASE_SPEED;
@@ -22,6 +22,8 @@ class Game: public sf::RenderWindow {
         static float PONG_SPEED_MULTIPLIER_Y;
 
     private:
+        void play ();
+        void win (string winMessage);
         void handleMoveKeyEvent (int keyCode, bool isKeyPressed);
         void handlePaddleMovement ();
         void handlePongMovement ();
@@ -30,6 +32,8 @@ class Game: public sf::RenderWindow {
         void drawMenuItems ();
         void drawControlsItems ();
         void drawCreditsItems ();
+        void drawWinItems (string winMessage);
+
 
         Paddle _leftPaddle;
         Paddle _rightPaddle;

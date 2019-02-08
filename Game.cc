@@ -39,6 +39,10 @@ Game::Game (int width, int height, string title)
 void Game::play ()
 {
     _pong.init(getSize().x, getSize().y);
+    _leftPoints = 0;
+    _rightPoints = 0;
+    _leftPaddle.setPosition(0, getSize().y / 2 - _leftPaddle.getSize().y / 2);
+    _rightPaddle.setPosition(getSize().x - _rightPaddle.getSize().x, getSize().y / 2 - _rightPaddle.getSize().y / 2);
     bool gameStarted = false;
 
     while (isOpen()) {
@@ -56,11 +60,8 @@ void Game::play ()
                     if (event.key.code == sf::Keyboard::Space && !gameStarted)
                         gameStarted = true;
 
-                    if (event.key.code == sf::Keyboard::Escape) {
-                        _leftPoints = 0;
-                        _rightPoints = 0;
+                    if (event.key.code == sf::Keyboard::Escape)
                         menu();
-                    }
 
                     break;
 
@@ -78,6 +79,10 @@ void Game::play ()
         if (gameStarted) {
             handlePaddleMovement();
             handlePongMovement();
+
+            if (_leftPoints == 11 || _rightPoints == 11)
+                win(_leftPoints == 11 ? "left player wins!" : "right player wins!");
+
         } else {
             handlePreGameText();
         }
@@ -175,7 +180,68 @@ void Game::menu ()
                 break;
         }
 
+        display();
+    }
+}
 
+
+void Game::win (string winMessage)
+{
+    Pong winPong(20, 0);
+    winPong.setPosition(getSize().x / 2 - 80, getSize().y / 2 - 85 + 100);
+
+    int selectedWinItem = 0;
+
+    while (isOpen()) {
+        sf::Event event;
+
+        while (pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::Closed:
+                    close();
+                    break;
+
+                case sf::Event::KeyPressed:
+                    switch (event.key.code) {
+                        case sf::Keyboard::Up:
+                            if (selectedWinItem > 0) {
+                                selectedWinItem--;
+                                winPong.setPosition(winPong.getPosition().x, winPong.getPosition().y - 100);
+                            }
+
+                            break;
+
+                        case sf::Keyboard::Down:
+                            if (selectedWinItem < 2) {
+                                selectedWinItem++;
+                                winPong.setPosition(winPong.getPosition().x, winPong.getPosition().y + 100);
+                            }
+
+                            break;
+
+                        case sf::Keyboard::Return:
+                            if (selectedWinItem == 0) play();
+                            else if (selectedWinItem == 1) menu();
+                            else close();
+
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                default:
+                    break;
+            }
+        }
+
+        clear();
+
+        handleScoreText();
+
+        drawWinItems(winMessage);
+
+        draw(winPong);
 
         display();
     }
@@ -373,4 +439,38 @@ void Game::drawCreditsItems ()
     draw(menuTitle);
     draw(menuText);
     draw(backText);
+}
+
+
+void Game::drawWinItems (string winMessage)
+{
+    sf::Text winMessageText;
+    sf::Text winPlayAgainText;
+    sf::Text winMainMenuText;
+    sf::Text winQuitText;
+
+    winMessageText.setFont(_mainFont);
+    winMessageText.setString(winMessage);
+    winMessageText.setCharacterSize(50);
+    winMessageText.setPosition(getSize().x / 2.0f - winMessageText.getLocalBounds().width / 2.0f - 5, 100);
+
+    winPlayAgainText.setFont(_mainFont);
+    winPlayAgainText.setString("play again");
+    winPlayAgainText.setCharacterSize(40);
+    winPlayAgainText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f);
+
+    winMainMenuText.setFont(_mainFont);
+    winMainMenuText.setString("main menu");
+    winMainMenuText.setCharacterSize(40);
+    winMainMenuText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f + 100);
+
+    winQuitText.setFont(_mainFont);
+    winQuitText.setString("quit");
+    winQuitText.setCharacterSize(40);
+    winQuitText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f + 200);
+
+    draw(winMessageText);
+    draw(winPlayAgainText);
+    draw(winMainMenuText);
+    draw(winQuitText);
 }
