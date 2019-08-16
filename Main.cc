@@ -4,12 +4,14 @@
 
 int main (int argc, char *argv[])
 {
-    srand (time(NULL));
+    // Initialize the random seed
+    srand(time(NULL));
 
+    // Initialize a new game
     Game pong(800, 600, "SFML Pong");
 
+    // Show the main menu
     pong.menu();
-    // pong.win("left player wins!");
 
     return 0;
 }
