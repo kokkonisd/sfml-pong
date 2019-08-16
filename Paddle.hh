@@ -14,13 +14,25 @@ using namespace std;
 class Paddle: public sf::RectangleShape {
 
     public:
-        // The constructor method
+        /**
+         * @brief The Paddle constructor method.
+         *
+         * @param[in]  width   The width of the Paddle
+         * @param[in]  height  The height of the Paddle
+         * @param[in]  speed   The speed of the Paddle
+         */
         Paddle (float width, float height, float speed);
-        // Operator overrides for the ++ and -- operators
+        /**
+         * @brief ++ operator override to move the paddle based on its speed
+         */
         void operator++ ();
+        /**
+         * @brief -- operator override to move the paddle based on its speed
+         */
         void operator-- ();
 
+
     private:
-        // The Paddle's speed
+        /** The Paddle's speed. */
         float _speed;
 };

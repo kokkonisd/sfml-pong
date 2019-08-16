@@ -9,17 +9,27 @@
 
 using namespace std;
 
+
+/**
+ * @brief The Game class.
+ * 
+ * This class handles the Pong game, from controlling menus to operating the
+ * game's logic.
+ */
 class Game: public sf::RenderWindow {
 
     public:
+        // The constructor method
         Game (int width, int height, string title);
+        // The main menu method
         void menu ();
-        // void win (string winMessage);
 
+        // Game constants to be tuned at the start of the game
         static float PADDLE_SPEED;
         static float PONG_BASE_SPEED;
         static float PONG_SPEED_MULTIPLIER_X;
         static float PONG_SPEED_MULTIPLIER_Y;
+
 
     private:
         void play ();

@@ -1,13 +1,6 @@
 #include "Paddle.hh"
 
 
-/**
- * @brief The Paddle constructor method.
- *
- * @param[in]  width   The width of the Paddle
- * @param[in]  height  The height of the Paddle
- * @param[in]  speed   The speed of the Paddle
- */
 Paddle::Paddle (float width, float height, float speed)
 :
     // Call to super() to initialize the Paddle rectangle
@@ -17,19 +10,15 @@ Paddle::Paddle (float width, float height, float speed)
 {}
 
 
-/**
- * @brief ++ operator override to move the paddle based on its speed
- */
 void Paddle::operator++ ()
 {
+    // Move the Paddle upwards based on its speed
     setPosition(getPosition().x, getPosition().y + _speed);
 }
 
 
-/**
- * @brief -- operator override to move the paddle based on its speed
- */
 void Paddle::operator-- ()
 {
+    // Move the Paddle donwards based on its speed
     setPosition(getPosition().x, getPosition().y - _speed);
 }
