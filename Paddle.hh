@@ -17,17 +17,17 @@ class Paddle: public sf::RectangleShape {
         /**
          * @brief The Paddle constructor method.
          *
-         * @param[in]  width   The width of the Paddle
-         * @param[in]  height  The height of the Paddle
-         * @param[in]  speed   The speed of the Paddle
+         * @param[in]  width   The width of the Paddle.
+         * @param[in]  height  The height of the Paddle.
+         * @param[in]  speed   The speed of the Paddle.
          */
         Paddle (float width, float height, float speed);
         /**
-         * @brief ++ operator override to move the paddle based on its speed
+         * @brief ++ operator override to move the Paddle based on its speed.
          */
         void operator++ ();
         /**
-         * @brief -- operator override to move the paddle based on its speed
+         * @brief -- operator override to move the Paddle based on its speed.
          */
         void operator-- ();
 
