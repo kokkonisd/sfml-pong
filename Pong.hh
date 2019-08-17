@@ -1,3 +1,10 @@
+/**
+ * @file Pong.hh
+ * @author Dimitri Kokkonis ([\@kokkonisd](https://github.com/kokkonisd))
+ * @date 8 Feb 2019
+ * @brief The Pong class definition for the Pong game.
+ */
+
 #pragma once
 
 #include <SFML/Graphics.hpp>
