@@ -9,7 +9,6 @@
 
 #include <SFML/Graphics.hpp>
 
-using namespace std;
 
 /**
  * @brief The Paddle class.

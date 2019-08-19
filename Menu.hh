@@ -13,7 +13,9 @@
 
 #include "Pong.hh"
 
-using namespace std;
+using std::string;
+using std::vector;
+using std::function;
 
 
 class Menu {

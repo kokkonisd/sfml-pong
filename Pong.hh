@@ -10,7 +10,6 @@
 #include <SFML/Graphics.hpp>
 #include <stdlib.h>
 
-using namespace std;
 
 /**
  * @brief The Pong class.

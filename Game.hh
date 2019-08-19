@@ -14,7 +14,7 @@
 #include "Paddle.hh"
 #include "Pong.hh"
 
-using namespace std;
+using std::string;
 
 
 /**
