@@ -1,6 +1,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include "Game.hh"
+#include "Menu.hh"
 
 int main (int argc, char *argv[])
 {
@@ -11,7 +12,7 @@ int main (int argc, char *argv[])
     Game pong(800, 600, "SFML Pong");
 
     // Show the main menu
-    pong.menu();
+    pong.mainMenu();
 
     return 0;
 }

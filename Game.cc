@@ -1,4 +1,5 @@
 #include "Game.hh"
+#include "Menu.hh"
 #include <iostream>
 
 using namespace std;
@@ -95,7 +96,7 @@ void Game::play ()
 
                     // If they press the Escape key, return to the main menu
                     if (event.key.code == sf::Keyboard::Escape)
-                        menu();
+                        mainMenu();
 
                     break;
 
@@ -143,223 +144,64 @@ void Game::play ()
 }
 
 
-void Game::menu ()
+void Game::mainMenu ()
 {
-    // Draw a Pong that will be used as a "cursor" to indicate the user's 
-    // current choice on the menu
-    Pong menuPong(20, 0);
-    // Set the position of the Pong cursor to align it with the first element
-    menuPong.setPosition(getSize().x / 2 - 80, getSize().y / 2 - 85);
+    Menu mainMenu("p0ng",
+                  "",
+                  { "play", "controls", "credits", "quit" },
+                  {
+                      [this]() { play(); },
+                      [this]() { controlsMenu(); },
+                      [this]() { creditsMenu(); },
+                      [this]() { close(); }
+                  },
+                  _mainFont);
 
-    // Set two variables to control both the selected item and the current
-    // state of the menu screen
-    int selectedMenuItem = 0;
-    int currentMenuState = 0;
-
-    // Set up a polling loop
-    while (isOpen()) {
-        sf::Event event;
-
-        while (pollEvent(event)) {
-            switch (event.type) {
-                // Close the window
-                case sf::Event::Closed:
-                    close();
-                    break;
-
-                case sf::Event::KeyPressed:
-                    switch (event.key.code) {
-                        // When the up arrow key is pressed, move the Pong
-                        // cursor up and decrease the selectedMenuItem counter
-                        case sf::Keyboard::Up:
-                            if (selectedMenuItem > 0) {
-                                selectedMenuItem--;
-                                menuPong.setPosition(menuPong.getPosition().x,
-                                                     menuPong.getPosition().y
-                                                        - 100);
-                            }
-
-                            break;
-
-                        // When the down arrow key is pressed, move the Pong
-                        // cursor down and increase the selectedMenuItem
-                        // counter
-                        case sf::Keyboard::Down:
-                            if (selectedMenuItem < 3) {
-                                selectedMenuItem++;
-                                menuPong.setPosition(menuPong.getPosition().x,
-                                                     menuPong.getPosition().y
-                                                        + 100);
-                            }
-
-                            break;
-
-                        // When the Enter (or Return) key is pressed, set the
-                        // current menu state based on the currently selected
-                        // menu item
-                        case sf::Keyboard::Return:
-                            // If we're in the Main Menu
-                            if (currentMenuState == 0) {
-                                // If it's the first choice, launch the game
-                                if (selectedMenuItem == 0)
-                                    play();
-                                // If it's the second choice, show the Controls
-                                // screen
-                                else if (selectedMenuItem == 1)
-                                    currentMenuState = 1;
-                                // If it's the third choice, show the Credits
-                                // screen
-                                else if (selectedMenuItem == 2)
-                                    currentMenuState = 2;
-                                // If it's the fourth choice, quit the game
-                                else
-                                    close();
-                            // If we're in one of the other two screens
-                            // (Controls or Credits) then it means that the
-                            // player has pushed the `back` button, so we need
-                            // to go back to the main menu
-                            } else {
-                                // Reset the counters and the Pong cursor for
-                                // the main menu
-                                currentMenuState = 0;
-                                selectedMenuItem = 0;
-                                menuPong.setPosition(getSize().x / 2 - 80,
-                                                     getSize().y / 2 - 85);
-                            }
-
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                default:
-                    break;
-            }
-        }
-
-        // Clear the screen
-        clear();
-
-        // The FSM controlling what is drawn based on the current state of the
-        // menu
-        switch (currentMenuState) {
-            // Main menu state
-            case 0:
-                drawMenuItems();
-                draw(menuPong);
-                break;
-
-            // Controls screen state
-            case 1:
-                drawControlsItems();
-                menuPong.setPosition(getSize().x / 2 - 80, getSize().y - 100);
-                draw(menuPong);
-                break;
-
-            // Credits screen state
-            case 2:
-                drawCreditsItems();
-                menuPong.setPosition(getSize().x / 2 - 80, getSize().y - 100);
-                draw(menuPong);
-                break;
-
-            default:
-                break;
-        }
-
-        // Display the screen
-        display();
-    }
+    mainMenu.show(*this);
 }
 
+void Game::controlsMenu ()
+{
+    Menu controlsMenu("controls",
+                      L"left paddle:\n"\
+                          "<w> to go up, <s> to go down\n"\
+                          "\n"\
+                          "right paddle:\n"\
+                          "<↑> to go up, <↓> to go down",
+                      { "back" },
+                      { [this]() { mainMenu(); } },
+                      _mainFont);
+
+    controlsMenu.show(*this);
+}
+
+void Game::creditsMenu ()
+{
+    Menu creditsMenu("credits",
+                     "made by dimitri kokkonis\n"\
+                         "(kokkonisd.github.io)\n"\
+                         "using c++ and sfml\n"\
+                         "february 2019",
+                     { "back" },
+                     { [this]() { mainMenu(); } },
+                     _mainFont);
+
+    creditsMenu.show(*this);
+}
 
 void Game::win (string winMessage)
 {
-    // Pong cursor to control the menu of the win screen
-    Pong winPong(20, 0);
-    // Set the position of the Pong cursor so that it is aligned next to the
-    // first menu element
-    winPong.setPosition(getSize().x / 2 - 80, getSize().y / 2 - 85 + 100);
+    Menu winScreen(winMessage,
+                   to_string(_leftPoints) + " - " + to_string(_rightPoints),
+                   { "play again", "main menu", "quit" },
+                   {
+                       [this]() { play(); },
+                       [this]() { mainMenu(); },
+                       [this]() { close(); }
+                   },
+                   _mainFont);
 
-    // Counter to handle the currently selected menu item from the win screen
-    int selectedWinItem = 0;
-
-    // Polling loop
-    while (isOpen()) {
-        sf::Event event;
-
-        while (pollEvent(event)) {
-            switch (event.type) {
-                // Quit the game
-                case sf::Event::Closed:
-                    close();
-                    break;
-
-                case sf::Event::KeyPressed:
-                    switch (event.key.code) {
-                        // If the up arrow key is pressed, decrease the 
-                        // selected item counter and move the Pong cursor up
-                        case sf::Keyboard::Up:
-                            if (selectedWinItem > 0) {
-                                selectedWinItem--;
-                                winPong.setPosition(winPong.getPosition().x,
-                                                    winPong.getPosition().y
-                                                        - 100);
-                            }
-
-                            break;
-
-                        // If the down arrow key is pressed, increase the 
-                        // selected item counter and move the Pong cursor down
-                        case sf::Keyboard::Down:
-                            if (selectedWinItem < 2) {
-                                selectedWinItem++;
-                                winPong.setPosition(winPong.getPosition().x,
-                                                    winPong.getPosition().y
-                                                        + 100);
-                            }
-
-                            break;
-
-                        // If the Enter (or Return) key is pressed, perform an
-                        // action based on the currently selected menu item
-                        case sf::Keyboard::Return:
-                            // If the first one is selected, launch another
-                            // game of Pong
-                            if (selectedWinItem == 0) play();
-                            // If the second one is selected, go back to the
-                            // main menu
-                            else if (selectedWinItem == 1) menu();
-                            // If the third one is selected, quit the game
-                            else close();
-
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                default:
-                    break;
-            }
-        }
-
-        // Clear the screen
-        clear();
-
-        // Draw the score text
-        handleScoreText();
-
-        // Draw the win text and win screen menu items
-        drawWinItems(winMessage);
-
-        // Draw the Pong cursor
-        draw(winPong);
-
-        // Display the elements on the screen
-        display();
-    }
+    winScreen.show(*this);
 }
 
 
@@ -514,177 +356,4 @@ void Game::handlePreGameText ()
 
     // Draw the pre-game text
     draw(preGameText);
-}
-
-
-void Game::drawMenuItems ()
-{
-    // Text objects for the menu title, the Play option, the Controls option,
-    // the Credits option and the Quit option
-    sf::Text menuTitle;
-    sf::Text menuPlayText;
-    sf::Text menuControlsText;
-    sf::Text menuCreditsText;
-    sf::Text menuQuitText;
-
-    // Set up the title of the game
-    menuTitle.setFont(_mainFont);
-    menuTitle.setString("p0ng");
-    menuTitle.setCharacterSize(70);
-    menuTitle.setPosition(getSize().x / 2.0f -
-                              menuTitle.getLocalBounds().width / 2.0f - 5,
-                          10);
-
-    // Set up the Play option
-    menuPlayText.setFont(_mainFont);
-    menuPlayText.setString("play");
-    menuPlayText.setCharacterSize(40);
-    menuPlayText.setPosition(getSize().x / 2.0f - 10,
-                             getSize().y / 2.0f - 100);
-
-    // Set up the Controls option
-    menuControlsText.setFont(_mainFont);
-    menuControlsText.setString("controls");
-    menuControlsText.setCharacterSize(40);
-    menuControlsText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f);
-
-    // Set up the Credits option
-    menuCreditsText.setFont(_mainFont);
-    menuCreditsText.setString("credits");
-    menuCreditsText.setCharacterSize(40);
-    menuCreditsText.setPosition(getSize().x / 2.0f - 10,
-                                getSize().y / 2.0f + 100);
-
-    // Set up the Quit option
-    menuQuitText.setFont(_mainFont);
-    menuQuitText.setString("quit");
-    menuQuitText.setCharacterSize(40);
-    menuQuitText.setPosition(getSize().x / 2.0f - 10,
-                             getSize().y / 2.0f + 200);
-
-    // Draw the title and the options on the screen
-    draw(menuTitle);
-    draw(menuPlayText);
-    draw(menuControlsText);
-    draw(menuCreditsText);
-    draw(menuQuitText);
-}
-
-
-void Game::drawControlsItems ()
-{
-    // Text objects for the Controls menu title, the menu text and the Back
-    // option
-    sf::Text menuTitle;
-    sf::Text menuText;
-    sf::Text backText;
-
-    // Set up the menu title
-    menuTitle.setFont(_mainFont);
-    menuTitle.setString("controls");
-    menuTitle.setCharacterSize(70);
-    menuTitle.setPosition(getSize().x / 2.0f -
-                              menuTitle.getLocalBounds().width / 2.0f - 5,
-                          10);
-
-    // Set up the menu text
-    menuText.setFont(_mainFont);
-    menuText.setString(L"left paddle:\n"\
-                        "<w> to go up, <s> to go down\n\n"\
-                        "right paddle:\n"\
-                        "<↑> to go up, <↓> to go down");
-    menuText.setCharacterSize(30);
-    menuText.setPosition(getSize().x / 2.0f -
-                             menuText.getLocalBounds().width / 2.0f - 5,
-                         getSize().y / 2.0f - 100);
-
-    // Set up the Back option
-    backText.setFont(_mainFont);
-    backText.setString("back");
-    backText.setCharacterSize(40);
-    backText.setPosition(getSize().x / 2.0f - 15, getSize().y - 116);
-
-    // Draw the three text objects
-    draw(menuTitle);
-    draw(menuText);
-    draw(backText);
-}
-
-
-void Game::drawCreditsItems ()
-{
-    // Text objects for the Credits menu title, the menu text and the Back
-    // option
-    sf::Text menuTitle;
-    sf::Text menuText;
-    sf::Text backText;
-
-    // Set up the menu title
-    menuTitle.setFont(_mainFont);
-    menuTitle.setString("credits");
-    menuTitle.setCharacterSize(70);
-    menuTitle.setPosition(getSize().x / 2.0f - menuTitle.getLocalBounds().width / 2.0f - 5, 10);
-
-    // Set up the menu text
-    menuText.setFont(_mainFont);
-    menuText.setString("made by dimitris kokkonis\n(kokkonisd.github.io)\nusing c++ and sfml\nfebruary 2019");
-    menuText.setCharacterSize(35);
-    menuText.setPosition(getSize().x / 2.0f - menuText.getLocalBounds().width / 2.0f - 5,
-                         getSize().y / 2.0f - 100);
-
-    // Set up the Back option
-    backText.setFont(_mainFont);
-    backText.setString("back");
-    backText.setCharacterSize(40);
-    backText.setPosition(getSize().x / 2.0f - 15, getSize().y - 116);
-
-    // Draw the three text objects
-    draw(menuTitle);
-    draw(menuText);
-    draw(backText);
-}
-
-
-void Game::drawWinItems (string winMessage)
-{
-    // Text objects for the win text, the Play again option, the Main menu
-    // option and the Quit option
-    sf::Text winMessageText;
-    sf::Text winPlayAgainText;
-    sf::Text winMainMenuText;
-    sf::Text winQuitText;
-
-    // Set up the win text
-    winMessageText.setFont(_mainFont);
-    winMessageText.setString(winMessage);
-    winMessageText.setCharacterSize(50);
-    winMessageText.setPosition(getSize().x / 2.0f -
-                                   winMessageText.getLocalBounds().width / 2.0f
-                                   - 5,
-                                100);
-
-    // Set up the Play again option
-    winPlayAgainText.setFont(_mainFont);
-    winPlayAgainText.setString("play again");
-    winPlayAgainText.setCharacterSize(40);
-    winPlayAgainText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f);
-
-    // Set up the Main menu option
-    winMainMenuText.setFont(_mainFont);
-    winMainMenuText.setString("main menu");
-    winMainMenuText.setCharacterSize(40);
-    winMainMenuText.setPosition(getSize().x / 2.0f - 10,
-                                getSize().y / 2.0f + 100);
-
-    // Set up the Quit option
-    winQuitText.setFont(_mainFont);
-    winQuitText.setString("quit");
-    winQuitText.setCharacterSize(40);
-    winQuitText.setPosition(getSize().x / 2.0f - 10, getSize().y / 2.0f + 200);
-
-    // Draw the four text objects
-    draw(winMessageText);
-    draw(winPlayAgainText);
-    draw(winMainMenuText);
-    draw(winQuitText);
 }

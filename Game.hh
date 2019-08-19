@@ -40,12 +40,27 @@ class Game: public sf::RenderWindow {
          */
         Game (int width, int height, string title);
         /**
-         * @brief Controls the Menu screens.
+         * @brief Displays the main menu.
          * 
-         * This method contains a FSM that displays different content based on
-         * the state of the Menu screen.
+         * This method creates and displays the main menu of the game, allowing
+         * the user to choose between launching the game, seeing the controls
+         * or the credits and quitting the game.
          */
-        void menu ();
+        void mainMenu ();
+        /**
+         * @brief Displays the controls menu.
+         * 
+         * This method creates and displays the controls menu of the game,
+         * which explains to the user how the game is supposed to be played.
+         */
+        void controlsMenu ();
+        /**
+         * @brief Displays the credits menu.
+         * 
+         * This method creates and displays the credits menu of the game, which
+         * lets the user know when and by whom the game was made.
+         */
+        void creditsMenu ();
 
         /** The Paddle's speed */
         static float PADDLE_SPEED;
@@ -125,37 +140,6 @@ class Game: public sf::RenderWindow {
          * order to start the game.
          */
         void handlePreGameText ();
-        /**
-         * @brief Draws the main menu items on the screen.
-         * 
-         * This method draws the main menu items on the screen: The game's
-         * title, the `play` option, the `controls` option, the `credits`
-         * option and the `quit` option.
-         */
-        void drawMenuItems ();
-        /**
-         * @brief Draws the items of the Controls menu on the screen.
-         * 
-         * This method draws the Controls menu items on the screen: the menu's
-         * title, its text explaining the game's controls and a back button to
-         * allow the player to go back to the main menu.
-         */
-        void drawControlsItems ();
-        /**
-         * @brief Draws the items of the Credits menu on the screen.
-         * 
-         * This method draws the Credits menu items on the screen: the menu's
-         * title, its text stating by whom and when was the game made and a
-         * back button to allow the player to go back to the main menu.
-         */
-        void drawCreditsItems ();
-        /**
-         * @brief Draws the items of the Win screen.
-         *
-         * @param[in]  winMessage  The win message, which depends on which
-         *                         player won the game.
-         */
-        void drawWinItems (string winMessage);
 
 
         /** The left Paddle object. */
