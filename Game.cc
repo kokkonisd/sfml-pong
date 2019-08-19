@@ -160,6 +160,7 @@ void Game::mainMenu ()
     mainMenu.show(*this);
 }
 
+
 void Game::controlsMenu ()
 {
     Menu controlsMenu("controls",
@@ -175,6 +176,7 @@ void Game::controlsMenu ()
     controlsMenu.show(*this);
 }
 
+
 void Game::creditsMenu ()
 {
     Menu creditsMenu("credits",
@@ -188,6 +190,7 @@ void Game::creditsMenu ()
 
     creditsMenu.show(*this);
 }
+
 
 void Game::win (string winMessage)
 {
