@@ -52,12 +52,6 @@ class Menu {
          * @param      window  The window for the menu to be drawn in
          */
         void show(sf::RenderWindow& window);
-        /**
-         * @brief Sets the option callbacks.
-         *
-         * @param[in]  callbacks  The new option callbacks.
-         */
-        void setCallbacks(vector<function<void()>> callbacks);
 
 
     private:

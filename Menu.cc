@@ -165,8 +165,3 @@ void Menu::moveCursorDown ()
                             _cursor.getPosition().y + _margin);
     }
 }
-
-void Menu::setCallbacks(vector<function<void()>> callbacks)
-{
-    _callbacks = callbacks;
-}
